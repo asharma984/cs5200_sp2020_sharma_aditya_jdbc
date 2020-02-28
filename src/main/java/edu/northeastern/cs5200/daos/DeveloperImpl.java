@@ -246,6 +246,19 @@ public class DeveloperImpl implements DeveloperDao {
 			String zip=address.getZip();
 			String state=address.getState();
 			boolean primary=address.isPrimary();
+		
+			   String updatePerson ="update person SET first_name=?,last_name=?,"
+				   		+ "user_name=?,password=?,email=?,dob=?,id=? where id =? ";
+					pstmt = con.prepareStatement(updatePerson);
+					pstmt.setString(1,firstName);
+					pstmt.setString(2,lastName);
+					pstmt.setString(3,userName);
+					pstmt.setString(4,pass);
+					pstmt.setString(5,email);
+					pstmt.setDate(6,dob);
+					pstmt.setInt(7,id);
+					pstmt.setInt(8,developerId);
+				   pstmt.executeUpdate();
 			String updateDeveloper ="update developer SET id=?, developer_key=? where id =? ";
 			pstmt = con.prepareStatement(updateDeveloper);
 			pstmt.setInt(1,id);
@@ -253,21 +266,10 @@ public class DeveloperImpl implements DeveloperDao {
 			pstmt.setInt(3,developerId);
 		   row=pstmt.executeUpdate();
 		   
-		   String updatePerson ="update person SET first_name=?,last_name=?,"
-		   		+ "user+name=?,password=?,email=?,dob=?,id=? where id =? ";
-			pstmt = con.prepareStatement(updatePerson);
-			pstmt.setString(1,firstName);
-			pstmt.setString(2,lastName);
-			pstmt.setString(3,userName);
-			pstmt.setString(4,pass);
-			pstmt.setString(5,email);
-			pstmt.setDate(6,dob);
-			pstmt.setInt(7,id);
-			pstmt.setInt(8,developerId);
-		   pstmt.executeUpdate();
+	
 		   
 		   String updateAddress ="update address SET street1=?,street2=?,"
-			   		+ "city=?,state=?,zip=?,primary=?,person=? where person =? ";
+			   		+ "city=?,state=?,zip=?,`primary`=?,person=? where person=? ";
 				pstmt = con.prepareStatement(updateAddress);
 				pstmt.setString(1,street1);
 				pstmt.setString(2,street2);
@@ -278,7 +280,7 @@ public class DeveloperImpl implements DeveloperDao {
 				pstmt.setInt(7,id);
 				pstmt.setInt(8,developerId);
 			   pstmt.executeUpdate();
-			   String updatePhone ="update phone SET phone=?,primary=?,person=? where person =? ";
+			   String updatePhone ="update phone SET phone=?,`primary`=?,person=? where person=? ";
 					pstmt = con.prepareStatement(updatePhone);
 					pstmt.setString(1,phoneno);
 					pstmt.setBoolean(2,prim);

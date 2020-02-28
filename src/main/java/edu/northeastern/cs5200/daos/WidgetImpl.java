@@ -104,7 +104,7 @@ public class WidgetImpl implements WidgetDao{
 	public List<Widget> findWidgetsForPage(int pageId){
 		List<Widget> widgets=new ArrayList<>();
 		try {
-			String sql =	"select * from page where page=?";
+			String sql =	"select * from widget where `page`=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, pageId);
 		ResultSet  result = pstmt.executeQuery();
@@ -127,7 +127,7 @@ public class WidgetImpl implements WidgetDao{
 	}
 	public int updateWidget(int widgetId, Widget widget) {
 		int row=0;
-		String widgetUpdate="update page SET id=?, name=?,width=?,height=?,css_class=?,css_style=?,"
+		String widgetUpdate="update widget SET id=?, name=?,width=?,height=?,css_class=?,css_style=?,"
 				+ "text=?,order=?,url=?,shareble=?,expandable=?,size=?,src=?,html=?,d_type=? where id =? ";
         try {
 			

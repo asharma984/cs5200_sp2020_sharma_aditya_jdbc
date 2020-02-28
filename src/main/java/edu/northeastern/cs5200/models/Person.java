@@ -1,6 +1,7 @@
 package edu.northeastern.cs5200.models;
 
 import java.sql.Date;
+import java.util.List;
 
 
 
@@ -29,17 +30,17 @@ public Person(int id,String firstName, String lastName,String userName,
 	this.dob=dob;
 	if(phone==null)
 	{
-	phone=new Phone();
+	  this.phone=new Phone();
 	}
 	else {
 		this.phone=phone;
 	}
 	if(address==null)
 	{
-		address=new Address();
+		this.address=new Address();
 	}
 	else {
-	this.address=address;
+		this.address=address;
 	}
 }
 public int getId() {

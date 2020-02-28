@@ -2,8 +2,10 @@ package edu.northeastern.cs5200;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import edu.northeastern.cs5200.daos.DeveloperDao;
@@ -48,6 +50,8 @@ public hw_jdbc_sharma_aditya()
 	insertWebsiteForDeveloper();
 	insertPageForWebsite();
 	insertWidget();
+	update();
+	delete();
 }
   public void insertDeveloper()
   {  java.sql.Date current = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -70,7 +74,7 @@ public hw_jdbc_sharma_aditya()
 		  current,current,1234234);
   websiteDao=new WebsiteImpl();
   websiteDao.createWebsiteForDeveloper(devId, website);
-  //website
+
   website=new Website(234, "Twitter", "an online news and social networking service",current,
 		  current, 4321543);
   developer=devDao.findDeveloperByUsername("bob");
@@ -199,7 +203,7 @@ public hw_jdbc_sharma_aditya()
   }
   
   public void update()
-  {
+  {   //update developer
 	  developer=devDao.findDeveloperByUsername("alice");
 	  int id=developer.getId();
 	  Phone phone=new Phone();
@@ -207,8 +211,56 @@ public hw_jdbc_sharma_aditya()
 	  phone.setPrimary(true);
 	  developer.setPhone(phone);
 	  devDao.updateDeveloper(id, developer);
-	  
-	  
+	
+	  //update page
+	  pageDao = new PageImpl();
+      List<Page> pages = pageDao.findAllPages();
+      List<Page> updatePages = new ArrayList<>();
+      for (Page p : pages) {
+    	  if(p.getWebsite()!=null)
+          {if (p.getWebsite().getId() == 567) {
+             updatePages.add(p);
+          }
+          }
+      }
+      for (Page p : updatePages) {
+          p.setTitle("CNET-" + p.getTitle());
+          pageDao.updatePage(p.getId(), p);
+      }
+
+	}
+  public void delete()
+  {
+	    //delete widget
+      widgetDao = new WidgetImpl();
+      List<Widget> widgets = widgetDao.findWidgetsForPage(345);
+      int max = 0;
+      int maxId=0;
+      for (Widget w : widgets) {
+          if (w.getOrder() > max) {
+              max= w.getOrder();
+              maxId=w.getId();
+          }
+      }
+      widgetDao.deleteWidget(maxId);
+      
+      //delete page
+      pageDao = new PageImpl();
+      List<Page> pages = pageDao.findPagesForWebsite(345);
+      Page lastPage = new Page();
+      lastPage.setUpdated(new Date(0));
+      int lastId=0;
+      for (Page page : pages) {
+          if (page.getUpdated().compareTo(lastPage.getUpdated()) > 0) {
+              lastPage = page;
+              lastId=page.getId();
+          }
+      }
+      pageDao.deletePage(lastId);
+
+  }
+
+
   }
   
-}
+
