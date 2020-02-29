@@ -14,6 +14,8 @@ import edu.northeastern.cs5200.daos.PageDao;
 import edu.northeastern.cs5200.daos.PageImpl;
 import edu.northeastern.cs5200.daos.RoleDao;
 import edu.northeastern.cs5200.daos.RoleImpl;
+import edu.northeastern.cs5200.daos.UserDao;
+import edu.northeastern.cs5200.daos.UserImpl;
 import edu.northeastern.cs5200.daos.WebsiteDao;
 import edu.northeastern.cs5200.daos.WebsiteImpl;
 import edu.northeastern.cs5200.daos.WidgetDao;
@@ -29,6 +31,7 @@ public class hw_jdbc_sharma_aditya {
  Developer developer;
  DeveloperDao devDao;
  User user;
+ UserDao userDao;
  Website website;
  WebsiteDao websiteDao;
  Page page;
@@ -47,6 +50,7 @@ public hw_jdbc_sharma_aditya()
 	roleMap.put("editor",4);
 	roleMap.put("reviewer",5);
 	insertDeveloper();
+	insertUser();
 	insertWebsiteForDeveloper();
 	insertPageForWebsite();
 	insertWidget();
@@ -63,6 +67,15 @@ public hw_jdbc_sharma_aditya()
 	  devDao.createDeveloper(developer);
 	  developer=new Developer("6543ytre",34,"Charles", "Garcia","charlie","charlie","chuch@garcia.com",current);
 	  devDao.createDeveloper(developer);
+  }
+  public void insertUser()
+  {  
+	  user=new User(45,"Dan", "Martin");
+	  userDao=new UserImpl();
+	  userDao.createUser(user);
+	  user=new User(56,"Ed", "Karaz");
+	  userDao.createUser(user);
+	  
   }
   public void insertWebsiteForDeveloper()
   { devDao=new DeveloperImpl();
@@ -211,6 +224,8 @@ public hw_jdbc_sharma_aditya()
 	  phone.setPrimary(true);
 	  developer.setPhone(phone);
 	  devDao.updateDeveloper(id, developer);
+	  
+	 
 	
 	  //update page
 	  pageDao = new PageImpl();
@@ -227,6 +242,23 @@ public hw_jdbc_sharma_aditya()
           p.setTitle("CNET-" + p.getTitle());
           pageDao.updatePage(p.getId(), p);
       }
+      
+      //update widget
+	  widgetDao = new WidgetImpl();
+      List<Widget> widgets = widgetDao.findWidgetsForPage(345);
+      for (Widget w : widgets) {
+          if (w.getName().equals("head345")) {
+              w.setOrder(3);
+              widgetDao.updateWidget(w.getId(), w);
+          } else {
+        	  int wid=w.getId();
+        	  int newOrder=w.getOrder()-1;
+              w.setOrder(newOrder);
+              widgetDao.updateWidget(wid, w);
+          }
+      }
+      
+      
 
 	}
   public void delete()
@@ -243,6 +275,7 @@ public hw_jdbc_sharma_aditya()
           }
       }
       widgetDao.deleteWidget(maxId);
+     
       
       //delete page
       pageDao = new PageImpl();
@@ -257,6 +290,11 @@ public hw_jdbc_sharma_aditya()
           }
       }
       pageDao.deletePage(lastId);
+      
+      //delete Website
+      websiteDao = new WebsiteImpl();
+      websiteDao.deleteWebsite(567);
+      
 
   }
 

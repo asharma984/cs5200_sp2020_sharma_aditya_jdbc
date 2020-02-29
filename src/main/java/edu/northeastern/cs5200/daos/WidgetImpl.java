@@ -128,7 +128,7 @@ public class WidgetImpl implements WidgetDao{
 	public int updateWidget(int widgetId, Widget widget) {
 		int row=0;
 		String widgetUpdate="update widget SET id=?, name=?,width=?,height=?,css_class=?,css_style=?,"
-				+ "text=?,order=?,url=?,shareble=?,expandable=?,size=?,src=?,html=?,d_type=? where id =? ";
+				+ "text=?,`order`=?,url=?,shareble=?,expandable=?,size=?,src=?,html=?,d_type=? where id =? ";
         try {
 			
 			pstmt = con.prepareStatement(widgetUpdate);
